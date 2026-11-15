@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowDownRight, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 import { SocialLinks } from "@/components/portfolio/SocialLinks"
 
 interface HeroProps {
