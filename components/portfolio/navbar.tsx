@@ -1,17 +1,17 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Moon, Sun, Menu, X, Shield } from "lucide-react"
+import { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, Moon, Shield, Sun, X } from "lucide-react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 const navLinks = [
   { name: "About", href: "#about" },
-  { name: "Tech", href: "#tech" },
-  { name: "Projects", href: "#projects" },
-  { name: "Blog", href: "#blog" },
+  { name: "Stack", href: "#tech" },
+  { name: "Work", href: "#projects" },
+  { name: "Writing", href: "#blog" },
   { name: "Contact", href: "#contact" },
 ]
 
@@ -20,119 +20,73 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  useEffect(() => setMounted(true), [])
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50"
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className="site-header"
     >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <nav className="site-nav">
+        <Link href="/" className="brand-mark" aria-label="Ankit Kuntal home">
+          <span className="brand-symbol">a<span>.</span></span>
+          <span className="brand-name">ANKIT KUNTAL</span>
+        </Link>
 
-          {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-foreground">
-            Dev
+        <div className="desktop-nav">
+          {navLinks.map((link) => (
+            <a key={link.name} href={link.href}>{link.name}</a>
+          ))}
+        </div>
+
+        <div className="nav-tools">
+          <Link href="/admin" className="admin-link" aria-label="Admin panel">
+            <Shield size={16} />
           </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-
-          {/* Right Side */}
-          <div className="flex items-center gap-3">
-
-            {/* Admin Panel Button */}
-            <Link href="/admin">
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Shield className="h-5 w-5" />
-                <span className="sr-only">Admin Panel</span>
-              </Button>
-            </Link>
-
-            {/* Theme Toggle */}
-            {mounted && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full"
-              >
-                {theme === "dark" ? (
-                  <Sun className="h-5 w-5" />
-                ) : (
-                  <Moon className="h-5 w-5" />
-                )}
-                <span className="sr-only">Toggle theme</span>
-              </Button>
-            )}
-
-            {/* Hire Me Button */}
-            <a href="#contact">
-              <Button className="hidden sm:flex bg-blue-500 hover:bg-blue-600 text-white rounded-full px-5">
-                Hire Me
-              </Button>
-            </a>
-
-            {/* Mobile Menu Button */}
+          {mounted && (
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="theme-toggle"
+              aria-label="Toggle color theme"
             >
-              {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </Button>
-
-          </div>
+          )}
+          <a className="nav-cta" href="#contact">Let’s talk <span>↗</span></a>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </Button>
         </div>
+      </nav>
 
-        {/* Mobile Navigation */}
+      <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            className="mobile-nav"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden pb-4"
           >
-            <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
-
-              <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-full mt-2">
-                  Hire Me
-                </Button>
+            {navLinks.map((link) => (
+              <a key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)}>
+                {link.name}
               </a>
-            </div>
+            ))}
+            <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Let’s talk ↗</a>
           </motion.div>
         )}
-      </nav>
+      </AnimatePresence>
     </motion.header>
   )
 }

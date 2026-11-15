@@ -3,14 +3,14 @@ import { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
-  title: 'Dev | Full-Stack Developer Portfolio',
-  description: 'Discover Dev’s software products, projects, blog and contact info.',
-  keywords: ['Dev', 'full-stack developer', 'portfolio', 'web developer', 'React', 'Next.js', 'Supabase'],
+  title: 'Ankit Kuntal | Full-Stack Developer',
+  description: 'Ankit Kuntal is a full-stack developer building thoughtful, high-performance digital products.',
+  keywords: ['Ankit Kuntal', 'full-stack developer', 'portfolio', 'web developer', 'React', 'Next.js', 'Supabase'],
   openGraph: {
     title: 'Dev | Full-Stack Developer Portfolio',
     description: 'Discover Dev’s software products, projects, blog and contact info.',
     url: 'https://ankit-kuntal-bt.vercel.app/',
-    siteName: 'Dev Portfolio',
+    siteName: 'Ankit Kuntal',
     type: 'website',
   },
   twitter: {
@@ -79,7 +79,7 @@ export default async function HomePage() {
             '@context': 'https://schema.org',
             '@type': 'Person',
             name: 'Ankit Kuntal',
-            url: 'https://your-domain.com',
+            url: 'https://ankit-kuntal-bt.vercel.app/',
             jobTitle: 'Full-Stack Developer',
             description: 'Full-stack developer creating web applications with Next.js, Supabase and React.',
             sameAs: safeSocial
@@ -92,8 +92,8 @@ export default async function HomePage() {
               '@type': 'Product',
               name: project.title,
               description: project.description,
-              url: project.live_url || 'https://your-domain.com',
-              image: project.image_url || 'https://your-domain.com/default-project-image.jpg',
+              url: project.live_url || 'https://ankit-kuntal-bt.vercel.app/',
+              image: project.image_url || 'https://ankit-kuntal-bt.vercel.app/icon.svg',
             })),
           }),
         }}
